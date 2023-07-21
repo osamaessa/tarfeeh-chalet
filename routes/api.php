@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+//image
+Route::post('/image/upload', [ImageController::class, "upload"]);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//country
+Route::post('/country/add', [CountryController::class, "addCountry"]);
+Route::post('/city/add', [CountryController::class, "addCity"]);
+Route::get('/country/list', [CountryController::class, "list"]);
