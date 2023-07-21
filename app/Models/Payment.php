@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'transaction_ref',
+        'token',
+        'type',
+        'currency',
+        'amount',
+        'status',
+        'card_type',
+        'card_scheme',
+        'card_description',
+    ];
 }

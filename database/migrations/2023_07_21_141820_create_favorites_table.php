@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-                 
+
+            $table->unsignedBigInteger('chalet_id');
+            $table->foreign('chalet_id')->references('id')->on('chalets');
+            
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-           
-            $table->string('key');
-            $table->string('type');
-            $table->boolean('is_seen')->default(false);
 
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('favorites');
     }
 };
