@@ -19,9 +19,6 @@ class User extends Authenticatable
         'verified_at',
         'code',
         'type',
-        'token',
-        'refresh_token',
-        'token_expire_at',
         'fcm',
         'address',
         'latitude',
@@ -41,4 +38,9 @@ class User extends Authenticatable
         'verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    const TYPE_USER = 'TYPE_USER';
+    const TYPE_CHALET = 'TYPE_CHALET';
+    const TYPE_SUBADMIN = 'TYPE_SUBADMIN';
+    const TYPE_ADMIN = 'TYPE_ADMIN';
 }

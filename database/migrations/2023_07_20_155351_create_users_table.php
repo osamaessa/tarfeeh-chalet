@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('code');
             $table->string('type');
-            $table->text('token')->nullable();
-            $table->text('refresh_token')->nullable();
-            $table->string('token_expire_at')->nullable();
             $table->text('fcm')->nullable();
             $table->text('address')->nullable();
             $table->decimal("latitude", 10, 8)->nullable();
