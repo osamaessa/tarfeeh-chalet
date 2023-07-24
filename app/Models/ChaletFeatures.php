@@ -12,5 +12,6 @@ class ChaletFeatures extends Model
         'chalet_id',
         'name_en',
         'name_ar',
+        'image_id'
     ];
 }

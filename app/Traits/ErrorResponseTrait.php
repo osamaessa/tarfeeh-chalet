@@ -14,7 +14,7 @@ trait ErrorResponseTrait
     public function authenticationError()
     {
         return response()->json([
-            "message" => "AUTHENTICATION_ERROR"
+            "message" => "Unauthenticated"
         ],401);
     }
     

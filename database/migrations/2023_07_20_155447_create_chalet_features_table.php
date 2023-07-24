@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('chalet_id');
             $table->foreign('chalet_id')->references('id')->on('chalets');
 
-            $table->string('name_en');
-            $table->string('name_ar');
+            $table->unsignedBigInteger('feature_id');
+            $table->foreign('feature_id')->references('id')->on('features');
           
             $table->timestamps();
         });

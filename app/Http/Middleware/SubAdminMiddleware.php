@@ -14,7 +14,7 @@ class SubAdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if($user->type != User::TYPE_SUBADMIN || $user->type != User::TYPE_ADMIN){
+        if($user->type != User::TYPE_SUBADMIN && $user->type != User::TYPE_ADMIN){
             return $this->forbidden();
         }
         return $next($request);

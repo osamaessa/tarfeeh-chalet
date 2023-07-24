@@ -7,13 +7,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChaletPricingResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'sunday_to_wednesday_day' => $this->sunday_to_wednesday_day,
+            'sunday_to_wednesday_night' => $this->sunday_to_wednesday_night,
+            'saturday_and_thursday_day' => $this->saturday_and_thursday_day,
+            'saturday_and_thursday_night' => $this->saturday_and_thursday_night,
+            'friday_day' => $this->friday_day,
+            'friday_night' => $this->friday_night,
+            'full_day_extra_price' => $this->full_day_extra_price,
+        ];
     }
 }

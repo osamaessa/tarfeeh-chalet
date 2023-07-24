@@ -14,7 +14,7 @@ class ChaletMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if($user->type != User::TYPE_SUBADMIN || $user->type != User::TYPE_ADMIN || $user->type != User::TYPE_CHALET){
+        if($user->type != User::TYPE_SUBADMIN && $user->type != User::TYPE_ADMIN && $user->type != User::TYPE_CHALET){
             return $this->forbidden();
         }
         return $next($request);

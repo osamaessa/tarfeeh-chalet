@@ -11,5 +11,6 @@ class Features extends Model
     protected $fillable = [
         'name_en',
         'name_ar',
+        'image_id'
     ];
 }
