@@ -22,14 +22,14 @@ class AuthController extends Controller
                 'name' => 'required',
                 'phone' => 'required|regex:/^\+9627[789]\d{7}$/',
                 'password' => 'required',
-                'country_id' => 'required',
+                // 'country_id' => 'required',
             ]);
 
             $user = User::create([
                 'name' => $fields['name'],
                 'phone' => $fields['phone'],
                 'password' => bcrypt($fields['password']),
-                'country_id' => $fields['country_id'],
+                // 'country_id' => $fields['country_id'],
                 'verified_at' => now(),
                 'type' => User::TYPE_ADMIN,
                 'code' => $code,

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ChaletFeatures;
+use App\Models\ChaletImage;
 use App\Models\ChaletPricing;
 use App\Models\City;
 use App\Models\Country;
@@ -43,6 +45,20 @@ class ChaletProfileResource extends JsonResource
             'pricing' => ChaletPricing::where('chalet_id','=', $this->id)->first() == null ? null : new ChaletPricingResource(ChaletPricing::where('chalet_id','=', $this->id)->first()),
             'user_id_image' => $this->user_id_image_id == null ? null : Image::find($this->user_id_image_id)->url,
             'license' => $this->license == null ? null : Image::find($this->license)->url,
+            'features' => $this->getFeatures($this->id),
+            'images' => $this->getImages($this->id),
         ];
+    }
+
+    private function getFeatures($id){
+        $data = ChaletFeatures::where('chalet_id','=',$id)->get();
+
+        return ChaletFeatureResource::collection($data);
+    }
+
+    private function getImages($id){
+        $data = ChaletImage::where('chalet_id','=',$id)->get();
+
+        return ChaletImageResource::collection($data);
     }
 }

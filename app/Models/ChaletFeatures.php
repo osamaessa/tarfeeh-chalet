@@ -10,8 +10,6 @@ class ChaletFeatures extends Model
     use HasFactory;
     protected $fillable = [
         'chalet_id',
-        'name_en',
-        'name_ar',
-        'image_id'
+        'feature_id'
     ];
 }

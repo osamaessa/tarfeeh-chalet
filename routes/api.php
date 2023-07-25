@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChaletController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,10 +55,22 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/chalet/list', [ChaletController::class, "list"])->middleware('admin');
     Route::get('/chalet/list/ready', [ChaletController::class, "readyList"])->middleware('admin');
+
+    Route::post('/feature/add', [FeatureController::class, "add"])->middleware('subadmin');
+    Route::put('/feature/update', [FeatureController::class, "update"])->middleware('subadmin');
+    Route::post('/feature/delete', [FeatureController::class, "delete"])->middleware('subadmin');
+    Route::get('/feature/list', [FeatureController::class, "list"])->middleware('chalet');
+
+    Route::post('/chalet/feature/add', [ChaletController::class, "addFeature"])->middleware('chalet');
+    Route::post('/chalet/feature/delete', [ChaletController::class, "deleteFeature"])->middleware('chalet');
+
+    Route::post('/chalet/image/add', [ChaletController::class, "addImage"])->middleware('chalet');
+    Route::post('/chalet/image/delete', [ChaletController::class, "deleteImage"])->middleware('chalet');
+
 });
 
 // next
-// expire token, fill data, throttle, features(common and chalet), chalet images
+// fill data, features(update fillable, common and chalet), chalet images ----------------- done
 // admin users list, update user information(phone, name, password, fcm, address, image, country and city)
 // block and increase report count
 // booking(new ,approve, cancel, reject, pay, completed), list(admin, user, chalet)
@@ -66,5 +79,6 @@ Route::middleware('auth:sanctum')->group(function () {
 // reports(new, list)
 // notifications(list, read)
 // send code to phone number 2nd factor authentication
+// remove unused images
 // deploy
 

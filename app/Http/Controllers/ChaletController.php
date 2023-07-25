@@ -6,9 +6,12 @@ use App\Constant\Messages;
 use App\Http\Resources\ChaletListItemResource;
 use App\Http\Resources\ChaletProfileResource;
 use App\Models\Chalet;
+use App\Models\ChaletFeatures;
+use App\Models\ChaletImage;
 use App\Models\ChaletPricing;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Features;
 use App\Models\Image;
 use App\Traits\ErrorResponseTrait;
 use Exception;
@@ -625,6 +628,150 @@ class ChaletController extends Controller
 
             $chalet->is_blocked = false;
             $chalet->save();
+
+            return new ChaletProfileResource($chalet);
+        } catch (Exception $ex) {
+            return $this->serverError($ex->getMessage());
+        }
+    }
+
+    public function addFeature(Request $request)
+    {
+        try {
+
+            $user = $request->user();
+
+            if (!$user) {
+                return $this->authenticationError();
+            }
+
+            $chalet = Chalet::where('user_id', '=', $user->id)->first();
+            if (!$chalet) {
+                return $this->badRequest(Messages::CHALET_NOT_FOUND);
+            }
+
+            $fields = $request->validate([
+                'feature_id' => 'required',
+            ]);
+
+            $feature = Features::find($fields['feature_id']);
+            if(!$feature){
+                return $this->badRequest(Messages::FEATURE_NOT_FOUND);
+            }
+
+            $chaletFeature = ChaletFeatures::where('feature_id', '=', $feature->id)
+                ->where('chalet_id', '=', $chalet->id)
+                ->first();
+            if($chaletFeature){
+                return $this->badRequest(Messages::CHALET_FEATURE_ALREADY_EXIST);
+            }
+            $chaletFeature = ChaletFeatures::create([
+                'feature_id' => $feature->id,
+                'chalet_id' => $chalet->id,
+            ]);
+
+            return new ChaletProfileResource($chalet);
+        } catch (Exception $ex) {
+            return $this->serverError($ex->getMessage());
+        }
+    }
+    
+    public function deleteFeature(Request $request)
+    {
+        try {
+
+            $user = $request->user();
+
+            if (!$user) {
+                return $this->authenticationError();
+            }
+
+            $chalet = Chalet::where('user_id', '=', $user->id)->first();
+            if (!$chalet) {
+                return $this->badRequest(Messages::CHALET_NOT_FOUND);
+            }
+
+            $fields = $request->validate([
+                'id' => 'required',
+            ]);
+
+            $chaletFeature = ChaletFeatures::find($fields['id']);
+            if(!$chaletFeature){
+                return $this->badRequest(Messages::FEATURE_NOT_FOUND);
+            }
+            $chaletFeature->delete();
+
+            return new ChaletProfileResource($chalet);
+        } catch (Exception $ex) {
+            return $this->serverError($ex->getMessage());
+        }
+    }
+
+    public function addImage(Request $request)
+    {
+        try {
+
+            $user = $request->user();
+
+            if (!$user) {
+                return $this->authenticationError();
+            }
+
+            $chalet = Chalet::where('user_id', '=', $user->id)->first();
+            if (!$chalet) {
+                return $this->badRequest(Messages::CHALET_NOT_FOUND);
+            }
+
+            $fields = $request->validate([
+                'image_id' => 'required',
+            ]);
+
+            $image = Image::find($fields['image_id']);
+            if(!$image){
+                return $this->badRequest(Messages::IMAGE_NOT_FOUND);
+            }
+
+            $chaletImage = ChaletImage::where('image_id', '=', $image->id)
+                ->where('chalet_id', '=', $chalet->id)
+                ->first();
+            if($chaletImage){
+                return $this->badRequest(Messages::CHALET_IMAGE_ALREADY_EXIST);
+            }
+            $chaletImage = ChaletImage::create([
+                'image_id' => $image->id,
+                'chalet_id' => $chalet->id,
+            ]);
+
+            return new ChaletProfileResource($chalet);
+        } catch (Exception $ex) {
+            return $this->serverError($ex->getMessage());
+        }
+    }
+
+    public function deleteImage(Request $request)
+    {
+        try {
+
+            $user = $request->user();
+
+            if (!$user) {
+                return $this->authenticationError();
+            }
+
+            $chalet = Chalet::where('user_id', '=', $user->id)->first();
+            if (!$chalet) {
+                return $this->badRequest(Messages::CHALET_NOT_FOUND);
+            }
+
+            $fields = $request->validate([
+                'id' => 'required',
+            ]);
+
+            $chaletImage = ChaletImage::find($fields['id']);
+            if(!$chaletImage){
+                return $this->badRequest(Messages::IMAGE_NOT_FOUND);
+            }
+            $chaletImage->delete();
 
             return new ChaletProfileResource($chalet);
         } catch (Exception $ex) {
