@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ChaletController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,9 +25,33 @@ Route::post('/password/reset', [AuthController::class, "resetPassword"]);
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    
     //auth
     Route::get('/token/refresh', [AuthController::class, "refreshToken"]);
     Route::post('/register/subadmin', [AuthController::class, "registerSubAdmin"])->middleware('admin');
+
+    //user
+    Route::get('/user/list', [UserProfileController::class, "users"])->middleware('subadmin');
+    Route::get('/user/details', [UserProfileController::class, "userDetails"])->middleware('subadmin');
+    Route::get('/profile', [UserProfileController::class, "profile"]);
+    Route::put('/profile/name', [UserProfileController::class, "updateName"]);
+    Route::put('/profile/fcm', [UserProfileController::class, "updateFcm"]);
+    Route::put('/profile/password', [UserProfileController::class, "updatePassword"]);
+    Route::put('/profile/address', [UserProfileController::class, "updateAddress"]);
+    Route::put('/profile/image', [UserProfileController::class, "updateImage"]);
+    Route::put('/profile/block', [UserProfileController::class, "block"])->middleware('subadmin');
+    Route::put('/profile/unblock', [UserProfileController::class, "unblock"])->middleware('subadmin');
+    Route::put('/profile/reports/increase', [UserProfileController::class, "increaseReportCount"])->middleware('subadmin');
+
+    //booking
+    Route::post('/booking/add', [BookingController::class, "add"]);
+    Route::put('/booking/approve', [BookingController::class, "approve"])->middleware('chalet');
+    Route::put('/booking/cancel', [BookingController::class, "cancel"]);
+    Route::put('/booking/reject', [BookingController::class, "reject"])->middleware('chalet');
+    Route::put('/booking/complete', [BookingController::class, "complete"]);
+    Route::get('/booking/admin/list', [BookingController::class, "adminList"])->middleware('subadmin');
+    Route::get('/booking/chalet/list', [BookingController::class, "chaletList"])->middleware('chalet');
+    Route::get('/booking/user/list', [BookingController::class, "userList"]);
 
     //image
     Route::post('/image/upload', [ImageController::class, "upload"]);
@@ -71,10 +97,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // next
 // fill data, features(update fillable, common and chalet), chalet images ----------------- done
-// admin users list, update user information(phone, name, password, fcm, address, image, country and city)
-// block and increase report count
-// booking(new ,approve, cancel, reject, pay, completed), list(admin, user, chalet)
-// payments
+// admin users list, update user information(name, password, fcm, address, image, country and city) ----------------- done
+// block and increase report count ----------------- done
+// booking(new ,approve, cancel, reject, pay, completed), list(admin, user, chalet) ----------------- done
+// payments ----------------- done
 // review(new, delete, list)
 // reports(new, list)
 // notifications(list, read)
