@@ -30,8 +30,6 @@ Route::get('/review/list', [ReviewController::class, "list"]);
 
 //report
 Route::post('/report/add', [ReportController::class, "add"]);
-Route::post('/report/solve', [ReportController::class, "solve"]);
-Route::post('/report/list', [ReportController::class, "list"]);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -109,6 +107,10 @@ Route::middleware('auth:sanctum')->group(function () {
     //chalet images
     Route::post('/chalet/image/add', [ChaletController::class, "addImage"])->middleware('chalet');
     Route::post('/chalet/image/delete', [ChaletController::class, "deleteImage"])->middleware('chalet');
+
+    //report
+    Route::put('/report/solve', [ReportController::class, "solve"])->middleware('subadmin');
+    Route::get('/report/list', [ReportController::class, "list"])->middleware('subadmin');
 });
 
 // next
