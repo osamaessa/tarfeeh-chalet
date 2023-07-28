@@ -408,4 +408,23 @@ class BookingController extends Controller
             return $this->serverError($ex->getMessage());
         }
     }
+
+    public function reviewSeen(Request $request)
+    {
+        try {
+
+            $user = $request->user();
+
+            if (!$user) {
+                return $this->authenticationError();
+            }
+
+            Booking::where('user_id', '=', $user->id)->update(['is_review_seen'=> true]);
+            return response(array(
+                'message' => Messages::GENERAL_SUCCESS
+            ));
+        } catch (Exception $ex) {
+            return $this->serverError($ex->getMessage());
+        }
+    }
 }

@@ -6,6 +6,7 @@ class Messages{
 
     //general
     const GENERAL_ERROR = 'SOMETHING_WENT_WRONG';
+    const GENERAL_SUCCESS = 'SUCCESS';
 
     //profile
     const FCM_UPDATED_SUCCESS = 'FCM_UPDATED_SUCCESS';

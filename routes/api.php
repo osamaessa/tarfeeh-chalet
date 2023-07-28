@@ -6,6 +6,8 @@ use App\Http\Controllers\ChaletController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +25,17 @@ Route::post('/password/forget', [AuthController::class, "forgetPassword"]);
 Route::post('/password/forget/verify', [AuthController::class, "forgetPasswordVerify"]);
 Route::post('/password/reset', [AuthController::class, "resetPassword"]);
 
+//review
+Route::get('/review/list', [ReviewController::class, "list"]);
+
+//report
+Route::post('/report/add', [ReportController::class, "add"]);
+Route::post('/report/solve', [ReportController::class, "solve"]);
+Route::post('/report/list', [ReportController::class, "list"]);
+
 Route::middleware('auth:sanctum')->group(function () {
 
-    
+
     //auth
     Route::get('/token/refresh', [AuthController::class, "refreshToken"]);
     Route::post('/register/subadmin', [AuthController::class, "registerSubAdmin"])->middleware('admin');
@@ -52,6 +62,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/booking/admin/list', [BookingController::class, "adminList"])->middleware('subadmin');
     Route::get('/booking/chalet/list', [BookingController::class, "chaletList"])->middleware('chalet');
     Route::get('/booking/user/list', [BookingController::class, "userList"]);
+    Route::put('/booking/review/seen', [BookingController::class, "reviewSeen"]);
+
+    //review
+    Route::post('/review/add', [ReviewController::class, "add"]);
+    Route::post('/review/delete', [ReviewController::class, "delete"]);
 
     //image
     Route::post('/image/upload', [ImageController::class, "upload"]);
@@ -82,6 +97,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/chalet/list', [ChaletController::class, "list"])->middleware('admin');
     Route::get('/chalet/list/ready', [ChaletController::class, "readyList"])->middleware('admin');
 
+    //feature
     Route::post('/feature/add', [FeatureController::class, "add"])->middleware('subadmin');
     Route::put('/feature/update', [FeatureController::class, "update"])->middleware('subadmin');
     Route::post('/feature/delete', [FeatureController::class, "delete"])->middleware('subadmin');
@@ -90,9 +106,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/chalet/feature/add', [ChaletController::class, "addFeature"])->middleware('chalet');
     Route::post('/chalet/feature/delete', [ChaletController::class, "deleteFeature"])->middleware('chalet');
 
+    //chalet images
     Route::post('/chalet/image/add', [ChaletController::class, "addImage"])->middleware('chalet');
     Route::post('/chalet/image/delete', [ChaletController::class, "deleteImage"])->middleware('chalet');
-
 });
 
 // next
@@ -100,11 +116,10 @@ Route::middleware('auth:sanctum')->group(function () {
 // admin users list, update user information(name, password, fcm, address, image, country and city) ----------------- done
 // block and increase report count ----------------- done
 // booking(new ,approve, cancel, reject, pay, completed), list(admin, user, chalet) ----------------- done
-// payments ----------------- done
-// review(new, delete, list)
+// payments
+// review(new, delete, list) ----------------- done
 // reports(new, list)
 // notifications(list, read)
 // send code to phone number 2nd factor authentication
 // remove unused images
 // deploy
-
