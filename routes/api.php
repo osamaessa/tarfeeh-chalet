@@ -118,9 +118,9 @@ Route::middleware('auth:sanctum')->group(function () {
 // admin users list, update user information(name, password, fcm, address, image, country and city) ----------------- done
 // block and increase report count ----------------- done
 // booking(new ,approve, cancel, reject, pay, completed), list(admin, user, chalet) ----------------- done
-// payments
 // review(new, delete, list) ----------------- done
-// reports(new, list)
+// reports(new, list) ----------------- done
+// payments ----------------- done
 // notifications(list, read)
 // send code to phone number 2nd factor authentication
 // remove unused images

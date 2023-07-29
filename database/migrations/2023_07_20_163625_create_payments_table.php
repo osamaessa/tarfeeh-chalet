@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
          
             $table->text('transaction_ref');
-            $table->text('token');
             $table->string('type');
             $table->string('currency');
             $table->string('amount');

@@ -7,6 +7,7 @@ use App\Http\Resources\BookingDetailsResource;
 use App\Models\Booking;
 use App\Models\Chalet;
 use App\Models\ChaletPricing;
+use App\Models\Payment;
 use App\Traits\ErrorResponseTrait;
 use Carbon\Carbon;
 use Exception;
@@ -326,6 +327,20 @@ class BookingController extends Controller
             if($responseData['payment_result']['response_status'] != 'A'){
                 return $this->badRequest(Messages::BOOKING_ERROR_PAYMENT);
             }
+
+            $payment = Payment::create([
+                'user_id' => $booking->user_id,
+                'transaction_ref' => $responseData['tran_ref'],
+                'type' => $responseData['tran_type'],
+                'currency' => $responseData['tran_currency'],
+                'amount' => $responseData['tran_total'],
+                'status' => $responseData['payment_result']['response_status'],
+                'card_type' => $responseData['payment_info']['card_type'],
+                'card_scheme' => $responseData['payment_info']['card_scheme'],
+                'card_description' => $responseData['payment_info']['payment_description'],
+            ]);
+            $booking->payment_id = $payment->id;
+            $booking->save();
 
             $chalet = Chalet::find($booking->chalet_id);
             $chalet->balance = $chalet->balance + $booking->paid_amount;
