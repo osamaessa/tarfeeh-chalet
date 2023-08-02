@@ -591,6 +591,55 @@ class ChaletController extends Controller
         }
     }
     
+    public function specialAdd(Request $request)
+    {
+        try {
+
+            $fields = $request->validate([
+                'chalet_id' => 'required',
+            ]);
+
+            $chalet = Chalet::find($fields['chalet_id']);
+            if (!$chalet) {
+                return $this->badRequest(Messages::CHALET_NOT_FOUND);
+            }
+
+
+            if(!$chalet->is_approved){
+                return $this->badRequest(Messages::CHALET_NOT_APPROVED);
+            }
+
+            $chalet->is_special = true;
+            $chalet->save();
+
+            return new ChaletProfileResource($chalet);
+        } catch (Exception $ex) {
+            return $this->serverError($ex->getMessage());
+        }
+    }
+    
+    public function specialRemove(Request $request)
+    {
+        try {
+
+            $fields = $request->validate([
+                'chalet_id' => 'required',
+            ]);
+
+            $chalet = Chalet::find($fields['chalet_id']);
+            if (!$chalet) {
+                return $this->badRequest(Messages::CHALET_NOT_FOUND);
+            }
+
+            $chalet->is_special = false;
+            $chalet->save();
+
+            return new ChaletProfileResource($chalet);
+        } catch (Exception $ex) {
+            return $this->serverError($ex->getMessage());
+        }
+    }
+    
     public function block(Request $request)
     {
         try {

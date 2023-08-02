@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\City;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -14,6 +15,8 @@ class ChaletListItemResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'phone' => $this->phone,
+            'address' => $this->address,
+            'city' => new CityResource(City::find($this->city_id)),
             'reviews_count' => $this->reviews_count,
             'review' => $this->review,
             'views' => $this->views,

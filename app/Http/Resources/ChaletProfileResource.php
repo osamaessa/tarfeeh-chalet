@@ -8,6 +8,7 @@ use App\Models\ChaletPricing;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Image;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -37,6 +38,7 @@ class ChaletProfileResource extends JsonResource
             'address' => $this->address,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
+            'is_special' => $this->is_special == 1 ? true : false,
             'is_blocked' => $this->is_blocked == 1 ? true : false,
             'is_approved' => $this->is_approved == 1 ? true : false,
             'down_payment_percent' => $this->down_payment_percent,
@@ -47,6 +49,7 @@ class ChaletProfileResource extends JsonResource
             'license' => $this->license == null ? null : Image::find($this->license)->url,
             'features' => $this->getFeatures($this->id),
             'images' => $this->getImages($this->id),
+            'reviews' => ReviewResource::collection(Review::where('chalet_id','=',$this->id)->take(3)->get()),
         ];
     }
 

@@ -28,6 +28,7 @@ class Chalet extends Model
         'latitude',
         'longitude',
         'is_blocked',
+        'is_special',
         'is_approved',
         'down_payment_percent',
         'city_id',

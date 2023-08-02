@@ -5,12 +5,21 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ChaletController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
+
+//home
+Route::get('/home', [HomeController::class, "home"]);
+Route::get('/search', [HomeController::class, "search"]);
+Route::get('/chalet/details', [HomeController::class, "chaletDetails"]);
+
+//review
+Route::get('/review/list', [ReviewController::class, "list"]);
 
 //country
 Route::get('/country/list', [CountryController::class, "list"]);
@@ -24,9 +33,6 @@ Route::post('/verify', [AuthController::class, "verify"]);
 Route::post('/password/forget', [AuthController::class, "forgetPassword"]);
 Route::post('/password/forget/verify', [AuthController::class, "forgetPasswordVerify"]);
 Route::post('/password/reset', [AuthController::class, "resetPassword"]);
-
-//review
-Route::get('/review/list', [ReviewController::class, "list"]);
 
 //report
 Route::post('/report/add', [ReportController::class, "add"]);
@@ -88,9 +94,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/chalet/image/id', [ChaletController::class, "imageId"])->middleware('chalet');
     Route::put('/chalet/image/license', [ChaletController::class, "license"])->middleware('chalet');
     Route::put('/chalet/pricing', [ChaletController::class, "pricing"])->middleware('chalet');
-    Route::put('/chalet/block', [ChaletController::class, "block"])->middleware('admin');
-    Route::put('/chalet/unblock', [ChaletController::class, "unblock"])->middleware('admin');
-    Route::put('/chalet/approve', [ChaletController::class, "approve"])->middleware('admin');
+    Route::put('/chalet/block', [ChaletController::class, "block"])->middleware('subadmin');
+    Route::put('/chalet/unblock', [ChaletController::class, "unblock"])->middleware('subadmin');
+    Route::put('/chalet/approve', [ChaletController::class, "approve"])->middleware('subadmin');
+    Route::put('/chalet/special/add', [ChaletController::class, "specialAdd"])->middleware('subadmin');
+    Route::put('/chalet/special/remove', [ChaletController::class, "specialRemove"])->middleware('subadmin');
 
     Route::get('/chalet/list', [ChaletController::class, "list"])->middleware('admin');
     Route::get('/chalet/list/ready', [ChaletController::class, "readyList"])->middleware('admin');
